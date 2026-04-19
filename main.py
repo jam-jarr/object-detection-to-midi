@@ -24,11 +24,8 @@ try:
             print("Error: Failed to capture frame")
             break
 
-        # Convert BGR to RGB (YOLOv5 expects RGB)
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
         # Run inference
-        results = model(rgb_frame)
+        results = model(frame)
 
         # Get annotated frame (returns BGR format for OpenCV display)
         annotated_frame = np.squeeze(results.render())  # Already in BGR format
