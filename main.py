@@ -2,86 +2,11 @@ import torch
 import cv2
 import numpy as np
 import mido
-
-# COCO class to MIDI note mapping
-CLASS_TO_MIDI = {
-    "person": 60,
-    "bicycle": 62,
-    "car": 64,
-    "motorcycle": 65,
-    "airplane": 67,
-    "bus": 69,
-    "train": 71,
-    "truck": 72,
-    "boat": 74,
-    "traffic light": 76,
-    "fire hydrant": 77,
-    "stop sign": 79,
-    "parking meter": 81,
-    "bench": 83,
-    "bird": 48,
-    "cat": 50,
-    "dog": 52,
-    "horse": 53,
-    "sheep": 55,
-    "cow": 57,
-    "elephant": 59,
-    "bear": 36,
-    "zebra": 38,
-    "giraffe": 40,
-    "backpack": 42,
-    "umbrella": 43,
-    "handbag": 45,
-    "tie": 47,
-    "suitcase": 84,
-    "frisbee": 86,
-    "skis": 88,
-    "snowboard": 89,
-    "sports ball": 91,
-    "kite": 93,
-    "baseball bat": 95,
-    "baseball glove": 96,
-    "skateboard": 98,
-    "surfboard": 100,
-    "tennis racket": 102,
-    "bottle": 104,
-    "wine glass": 106,
-    "cup": 108,
-    "fork": 110,
-    "knife": 112,
-    "spoon": 114,
-    "bowl": 116,
-    "banana": 117,
-    "apple": 119,
-    "sandwich": 121,
-    "orange": 122,
-    "broccoli": 124,
-    "carrot": 126,
-    "chair": 24,
-    "couch": 26,
-    "potted plant": 28,
-    "bed": 30,
-    "dining table": 32,
-    "toilet": 34,
-    "tv": 12,
-    "laptop": 14,
-    "mouse": 16,
-    "keyboard": 17,
-    "remote": 19,
-    "microwave": 21,
-    "oven": 23,
-    "toaster": 0,
-    "refrigerator": 2,
-    "book": 4,
-    "clock": 5,
-    "vase": 7,
-    "scissors": 9,
-    "teddy bear": 11,
-}
+import argparse
+import json
 
 DEFAULT_MIDI_NOTE = 60
 VELOCITY_BASE = 80
-VELOCITY_SCALE = 20
 MIDI_CHANNEL = 0
 
 
@@ -94,9 +19,17 @@ class MidiController:
         self.track = None
         self.active_notes = {}
 
-    def open_port(self):
+    def open_port(self, port=None):
         available_ports = mido.get_output_names()
         print(f"Available MIDI outputs: {available_ports}")
+
+        if port:
+            try:
+                self.port = mido.open_output(port)
+                print(f"Connected to MIDI port: {port}")
+                return True
+            except Exception as e:
+                print(f"Could not open port: {e}")
 
         try:
             self.port = mido.open_output(self.port_name, virtual=True)
@@ -153,22 +86,68 @@ class MidiController:
             )
 
     def close(self):
-        for class_name, note in list(self.active_notes.items()):
+        for _class_name, note in list(self.active_notes.items()):
             self.send_note_off(note)
 
         if self.use_file_mode and self.midi_file:
-            self.track.append(mido.Message("end_of_track"))
-            self.midi_file.save("detections.mid")
+            if self.track:
+                self.track.append(mido.Message("end_of_track"))
+                self.midi_file.save("detections.mid")
             print("MIDI file saved: detections.mid")
         elif self.port:
             self.port.close()
             print("MIDI port closed")
 
 
+# Arguments
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "--port",
+    type=str,
+    default=None,
+    help="MIDI port name or virtual port name",
+)
+
+parser.add_argument(
+    "--model",
+    type=str,
+    default="yolov5s",
+    help="YOLOv5 model name",
+)
+
+parser.add_argument(
+    "--conf",
+    type=float,
+    default=0.30,
+    help="YOLOv5 confidence threshold",
+)
+
+parser.add_argument(
+    "--iou",
+    type=float,
+    default=0.45,
+    help="YOLOv5 IOU threshold",
+)
+
+
+class args:
+    pass
+
+
+parser.parse_args(namespace=args)
+
+print(args.model)
+print(vars(args))
+
+# COCO class to MIDI note mapping
+with open("class_mapping.json") as f:
+    CLASS_TO_MIDI = json.load(f)
+
 # Load model
-model = torch.hub.load("ultralytics/yolov5", "yolov5s", pretrained=True)
-model.conf = 0.30
-model.iou = 0.45
+model = torch.hub.load("ultralytics/yolov5", args.model, pretrained=True)
+model.conf = args.conf
+model.iou = args.iou
 
 # Initialize webcam
 cap = cv2.VideoCapture(0)
@@ -178,7 +157,7 @@ if not cap.isOpened():
 
 # Initialize MIDI
 midi = MidiController("YOLOv5 Detection")
-midi.open_port()
+midi.open_port(args.port)
 
 print("Webcam opened. Press 'q' to quit.")
 
