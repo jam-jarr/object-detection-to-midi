@@ -126,16 +126,14 @@ class MidiController:
                 mido.Message(
                     "note_on",
                     note=note,
-                    velocity=VELOCITY_BASE,
+                    velocity=velocity,
                     channel=channel,
                     time=0,
                 )
             )
         elif self.port:
             self.port.send(
-                mido.Message(
-                    "note_on", note=note, velocity=VELOCITY_BASE, channel=channel
-                )
+                mido.Message("note_on", note=note, velocity=velocity, channel=channel)
             )
 
     def send_note_off(self, note, velocity=0, channel=MIDI_CHANNEL):
@@ -144,16 +142,14 @@ class MidiController:
                 mido.Message(
                     "note_off",
                     note=note,
-                    velocity=VELOCITY_BASE,
+                    velocity=velocity,
                     channel=channel,
                     time=0,
                 )
             )
         elif self.port:
             self.port.send(
-                mido.Message(
-                    "note_off", note=note, velocity=VELOCITY_BASE, channel=channel
-                )
+                mido.Message("note_off", note=note, velocity=velocity, channel=channel)
             )
 
     def close(self):
@@ -210,12 +206,11 @@ try:
 
                 if class_name not in active_detections:
                     midi_note = CLASS_TO_MIDI.get(class_name, DEFAULT_MIDI_NOTE)
-                    velocity = min(
-                        127, int(VELOCITY_BASE + confidence * VELOCITY_SCALE)
-                    )
-                    midi.send_note_on(midi_note, velocity)
+                    midi.send_note_on(midi_note, VELOCITY_BASE)
                     midi.active_notes[class_name] = midi_note
-                    print(f"note_on: {class_name} -> MIDI {midi_note}, vel {velocity}")
+                    print(
+                        f"note_on: {class_name} -> MIDI {midi_note}, vel {VELOCITY_BASE}"
+                    )
 
                 active_detections.add(class_name)
 
