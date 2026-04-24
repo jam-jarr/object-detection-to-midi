@@ -41,16 +41,11 @@ class MidiController:
         if available_ports:
             try:
                 self.port = mido.open_output(available_ports[0])
-                print(f"Connected to MIDI port: {available_ports[0]}")
+                print(f"Connected to first available MIDI port: {available_ports[0]}")
                 return True
             except Exception as e:
-                print(f"Could not open port: {e}")
+                print(f"Could not open first available port: {e}")
 
-        print("No MIDI ports available. Using file mode.")
-        self.use_file_mode = True
-        self.midi_file = mido.MidiFile()
-        self.track = mido.MidiTrack()
-        self.midi_file.tracks.append(self.track)
         return True
 
     def send_note_on(self, note, velocity, channel=MIDI_CHANNEL):
