@@ -125,6 +125,13 @@ parser.add_argument(
     help="YOLOv5 IOU threshold",
 )
 
+parser.add_argument(
+    "--debug",
+    type=bool,
+    default=False,
+    help="Debug mode",
+)
+
 
 class args:
     pass
@@ -132,12 +139,20 @@ class args:
 
 parser.parse_args(namespace=args)
 
-print(args.model)
-print(vars(args))
+if args.debug:
+    print("Arguments and defaults:")
+    print(vars(args))
+    print("-" * 50)
 
 # COCO class to MIDI note mapping
 with open("class_mapping.json") as f:
     CLASS_TO_MIDI = json.load(f)
+
+if args.debug:
+    print(CLASS_TO_MIDI)
+    print(CLASS_TO_MIDI.get("person"))
+    exit()
+
 
 # Load model
 model = torch.hub.load("ultralytics/yolov5", args.model, pretrained=True)
