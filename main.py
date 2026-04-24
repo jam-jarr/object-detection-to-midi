@@ -155,7 +155,9 @@ if args.debug:
 
 
 # Load model
-model = torch.hub.load("ultralytics/yolov5", args.model, pretrained=True)
+model = torch.hub.load(
+    "ultralytics/yolov5", args.model, pretrained=True, _verbose=False
+)
 model.conf = args.conf
 model.iou = args.iou
 
@@ -180,19 +182,50 @@ try:
             print("Error: Failed to capture frame")
             break
 
+        original_frame = frame.copy()
         results = model(frame)
-        annotated_frame = np.squeeze(results.render())
-        cv2.imshow("Surveillance to MIDI - Webcam", annotated_frame)
+
+        print(f"Frame size: {original_frame.shape}")
 
         detections = results.pandas().xyxy[0]
+        print(results.pandas().xyxy[0])
         if not detections.empty:
             current_detections = set()
 
             for _, row in detections.iterrows():
                 class_name = row["name"]
                 confidence = row["confidence"]
-                current_detections.add(class_name)
 
+                x1, y1, x2, y2 = (
+                    int(row["xmin"]),
+                    int(row["ymin"]),
+                    int(row["xmax"]),
+                    int(row["ymax"]),
+                )
+
+                # Scale detections to original frame size
+                x1 = int(x1 * original_frame.shape[1] / frame.shape[1])
+                y1 = int(y1 * original_frame.shape[0] / frame.shape[0])
+                x2 = int(x2 * original_frame.shape[1] / frame.shape[1])
+                y2 = int(y2 * original_frame.shape[0] / frame.shape[0])
+
+                # Render annotations
+                cv2.rectangle(
+                    original_frame, (x1, y1), (x2, y2), (255, 0, 255), thickness=2
+                )
+                cv2.putText(
+                    original_frame,
+                    class_name,
+                    (x1, y1 - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5,
+                    (255, 255, 255),
+                    2,
+                )
+
+                cv2.imshow("YOLOv5 Detections", original_frame)
+
+                current_detections.add(class_name)
                 if class_name not in active_detections:
                     midi_note = CLASS_TO_MIDI.get(class_name, DEFAULT_MIDI_NOTE)
                     midi.send_note_on(midi_note, VELOCITY_BASE)
