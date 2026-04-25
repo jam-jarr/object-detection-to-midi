@@ -8,6 +8,7 @@ import json
 DEFAULT_MIDI_NOTE = 60
 VELOCITY_BASE = 80
 MIDI_CHANNEL = 0
+DEFAULT_COLOR = (0, 255, 0)
 
 
 class MidiController:
@@ -132,6 +133,8 @@ parser.add_argument(
     help="Debug mode",
 )
 
+# TODO: videocapture parameter CLI argument
+
 
 class args:
     pass
@@ -146,11 +149,11 @@ if args.debug:
 
 # COCO class to MIDI note mapping
 with open("class_mapping.json") as f:
-    CLASS_TO_MIDI = json.load(f)
+    configuration = json.load(f)
 
 if args.debug:
-    print(CLASS_TO_MIDI)
-    print(CLASS_TO_MIDI.get("person"))
+    print(configuration)
+    print(configuration.get("person"))
     exit()
 
 
@@ -210,9 +213,8 @@ try:
                 y2 = int(y2 * original_frame.shape[0] / frame.shape[0])
 
                 # Render annotations
-                cv2.rectangle(
-                    original_frame, (x1, y1), (x2, y2), (255, 0, 255), thickness=2
-                )
+                color = tuple(configuration.get(class_name, DEFAULT_COLOR))
+                cv2.rectangle(original_frame, (x1, y1), (x2, y2), color, thickness=2)
                 cv2.putText(
                     original_frame,
                     class_name,
@@ -227,7 +229,7 @@ try:
 
                 current_detections.add(class_name)
                 if class_name not in active_detections:
-                    midi_note = CLASS_TO_MIDI.get(class_name, DEFAULT_MIDI_NOTE)
+                    midi_note = configuration.get(class_name, DEFAULT_MIDI_NOTE)
                     midi.send_note_on(midi_note, VELOCITY_BASE)
                     midi.active_notes[class_name] = midi_note
                     print(
@@ -238,7 +240,7 @@ try:
 
             removed = active_detections - current_detections
             for class_name in removed:
-                midi_note = CLASS_TO_MIDI.get(class_name, DEFAULT_MIDI_NOTE)
+                midi_note = configuration.get(class_name, DEFAULT_MIDI_NOTE)
                 midi.send_note_off(midi_note)
                 if class_name in midi.active_notes:
                     del midi.active_notes[class_name]

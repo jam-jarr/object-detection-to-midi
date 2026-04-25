@@ -14,8 +14,20 @@
 
 ## TODO
 
-- [ ] Render input frame separately, scale label boxes to input frame size
+- [x] Render input frame separately, scale label boxes to input frame size
 - [x] JSON file for class mappings
-- [ ] Range of values for each class
+  - Discrete array for choices
+  - Mutually exclusive notes, `X detected > X<=len(array)` notes played
+  - If max notes are reached, increase velocity of notes (ADD)
+    - Configuration parameter
 - [ ] Different ports for different classes
 - [ ] Map confidence to velocity
+- [ ] Switch to UV
+
+## IDEAS
+
+- Procedural audio generation?
+  - Manhattan
+- Fine tuning?
+  - Leaf
+  - Sparkle

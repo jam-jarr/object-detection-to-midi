@@ -1,0 +1,221 @@
+{
+  "person": {
+    "note": 60,
+    "color": [
+      0,
+      255,
+      0
+    ]
+  },
+  "bicycle": {
+    "note": 62
+  },
+  "car": {
+    "note": 64
+  },
+  "motorcycle": {
+    "note": 65
+  },
+  "airplane": 67,
+  "bus": {
+    "note": 69
+  },
+  "train": {
+    "note": 71
+  },
+  "truck": {
+    "note": 72
+  },
+  "boat": {
+    "note": 74
+  },
+  "traffic light": {
+    "note": 76
+  },
+  "fire hydrant": {
+    "note": 77
+  },
+  "stop sign": {
+    "note": 79
+  },
+  "parking meter": {
+    "note": 81
+  },
+  "bench": {
+    "note": 83
+  },
+  "bird": {
+    "note": 48
+  },
+  "cat": {
+    "note": 50
+  },
+  "dog": {
+    "note": 52
+  },
+  "horse": {
+    "note": 53
+  },
+  "sheep": {
+    "note": 55
+  },
+  "cow": {
+    "note": 57
+  },
+  "elephant": {
+    "note": 59
+  },
+  "bear": {
+    "note": 36
+  },
+  "zebra": {
+    "note": 38
+  },
+  "giraffe": {
+    "note": 40
+  },
+  "backpack": {
+    "note": 42
+  },
+  "umbrella": {
+    "note": 43
+  },
+  "handbag": {
+    "note": 45
+  },
+  "tie": {
+    "note": 47
+  },
+  "suitcase": {
+    "note": 84
+  },
+  "frisbee": {
+    "note": 86
+  },
+  "skis": {
+    "note": 88
+  },
+  "snowboard": {
+    "note": 89
+  },
+  "sports ball": {
+    "note": 91
+  },
+  "kite": {
+    "note": 93
+  },
+  "baseball bat": {
+    "note": 95
+  },
+  "baseball glove": {
+    "note": 96
+  },
+  "skateboard": {
+    "note": 98
+  },
+  "surfboard": {
+    "note": 100
+  },
+  "tennis racket": {
+    "note": 102
+  },
+  "bottle": {
+    "note": 104
+  },
+  "wine glass": {
+    "note": 106
+  },
+  "cup": {
+    "note": 108
+  },
+  "fork": {
+    "note": 110
+  },
+  "knife": {
+    "note": 112
+  },
+  "spoon": {
+    "note": 114
+  },
+  "bowl": {
+    "note": 116
+  },
+  "banana": {
+    "note": 117
+  },
+  "apple": {
+    "note": 119
+  },
+  "sandwich": {
+    "note": 121
+  },
+  "orange": {
+    "note": 122
+  },
+  "broccoli": {
+    "note": 124
+  },
+  "carrot": {
+    "note": 126
+  },
+  "chair": {
+    "note": 24
+  },
+  "couch": {
+    "note": 26
+  },
+  "potted plant": {
+    "note": 28
+  },
+  "bed": {
+    "note": 30
+  },
+  "dining table": {
+    "note": 32
+  },
+  "toilet": {
+    "note": 34
+  },
+  "tv": {
+    "note": 12
+  },
+  "laptop": {
+    "note": 14
+  },
+  "mouse": {
+    "note": 16
+  },
+  "keyboard": {
+    "note": 17
+  },
+  "remote": {
+    "note": 19
+  },
+  "microwave": {
+    "note": 21
+  },
+  "oven": {
+    "note": 23
+  },
+  "toaster": {
+    "note": 0
+  },
+  "refrigerator": {
+    "note": 2
+  },
+  "book": {
+    "note": 4
+  },
+  "clock": {
+    "note": 5
+  },
+  "vase": {
+    "note": 7
+  },
+  "scissors": {
+    "note": 9
+  },
+  "teddy bear": {
+    "note": 1
+  }
+}
