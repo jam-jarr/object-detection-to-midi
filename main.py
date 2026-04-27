@@ -262,14 +262,14 @@ try:
 
                 active_detections.add(class_name)
 
-            removed = active_detections - current_detections
-            for class_name in removed:
-                midi_note = class_conf.get("note")
-                midi.send_note_off(midi_note)
-                if class_name in midi.active_notes:
-                    del midi.active_notes[class_name]
-                print(f"note_off: {class_name} -> MIDI {midi_note}")
-                active_detections.discard(class_name)
+        removed = active_detections - current_detections
+        for class_name in removed:
+            midi_note = class_conf.get("note")
+            midi.send_note_off(midi_note)
+            if class_name in midi.active_notes:
+                del midi.active_notes[class_name]
+            print(f"note_off: {class_name} -> MIDI {midi_note}")
+            active_detections.discard(class_name)
 
         cv2.imshow("YOLOv5 Detections", original_frame)
 
