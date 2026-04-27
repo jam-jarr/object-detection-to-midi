@@ -16,7 +16,9 @@
   "motorcycle": {
     "note": 65
   },
-  "airplane": 67,
+  "airplane": {
+    "note": 67
+  },
   "bus": {
     "note": 69
   },
