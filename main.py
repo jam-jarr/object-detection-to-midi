@@ -210,66 +210,64 @@ try:
 
         detections = results.pandas().xyxy[0]
         print(results.pandas().xyxy[0])
-        if not detections.empty:
-            current_detections = set()
 
-            for _, row in detections.iterrows():
-                class_name = row["name"]
-                confidence = row["confidence"]
+        current_detections = set()
 
-                class_conf = configuration.get(class_name, DEFAULT_MIDI)
+        for _, row in detections.iterrows():
+            class_name = row["name"]
+            confidence = row["confidence"]
 
-                if args.debug:
-                    print(f"Class: {class_name}")
-                    print(f"Conf: {class_conf}")
+            class_conf = configuration.get(class_name, DEFAULT_MIDI)
 
-                x1, y1, x2, y2 = (
-                    int(row["xmin"]),
-                    int(row["ymin"]),
-                    int(row["xmax"]),
-                    int(row["ymax"]),
-                )
+            if args.debug:
+                print(f"Class: {class_name}")
+                print(f"Conf: {class_conf}")
 
-                # Scale detections to original frame size
-                x1 = int(x1 * (original_frame.shape[1] / frame.shape[1]))
-                y1 = int(y1 * (original_frame.shape[0] / frame.shape[0]))
-                x2 = int(x2 * (original_frame.shape[1] / frame.shape[1]))
-                y2 = int(y2 * (original_frame.shape[0] / frame.shape[0]))
+            x1, y1, x2, y2 = (
+                int(row["xmin"]),
+                int(row["ymin"]),
+                int(row["xmax"]),
+                int(row["ymax"]),
+            )
 
-                # Render annotations
-                color = tuple(class_conf.get("color", DEFAULT_MIDI["color"]))
-                if args.debug:
-                    print(f"Color: {color}")
-                cv2.rectangle(original_frame, (x1, y1), (x2, y2), color, thickness=2)
-                cv2.putText(
-                    original_frame,
-                    class_name,
-                    (x1, y1 - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.5,
-                    (255, 255, 255),
-                    2,
-                )
+            # Scale detections to original frame size
+            x1 = int(x1 * (original_frame.shape[1] / frame.shape[1]))
+            y1 = int(y1 * (original_frame.shape[0] / frame.shape[0]))
+            x2 = int(x2 * (original_frame.shape[1] / frame.shape[1]))
+            y2 = int(y2 * (original_frame.shape[0] / frame.shape[0]))
 
-                current_detections.add(class_name)
-                if class_name not in active_detections:
-                    midi_note = class_conf.get("note")
-                    midi.send_note_on(midi_note, VELOCITY_BASE)
-                    midi.active_notes[class_name] = midi_note
-                    print(
-                        f"note_on: {class_name} -> MIDI {midi_note}, vel {VELOCITY_BASE}"
-                    )
+            # Render annotations
+            color = tuple(class_conf.get("color", DEFAULT_MIDI["color"]))
+            if args.debug:
+                print(f"Color: {color}")
+            cv2.rectangle(original_frame, (x1, y1), (x2, y2), color, thickness=2)
+            cv2.putText(
+                original_frame,
+                class_name,
+                (x1, y1 - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (255, 255, 255),
+                2,
+            )
 
-                active_detections.add(class_name)
-
-            removed = active_detections - current_detections
-            for class_name in removed:
+            current_detections.add(class_name)
+            if class_name not in active_detections:
                 midi_note = class_conf.get("note")
-                midi.send_note_off(midi_note)
-                if class_name in midi.active_notes:
-                    del midi.active_notes[class_name]
-                print(f"note_off: {class_name} -> MIDI {midi_note}")
-                active_detections.discard(class_name)
+                midi.send_note_on(midi_note, VELOCITY_BASE)
+                midi.active_notes[class_name] = midi_note
+                print(f"note_on: {class_name} -> MIDI {midi_note}, vel {VELOCITY_BASE}")
+
+            active_detections.add(class_name)
+
+        removed = active_detections - current_detections
+        for class_name in removed:
+            midi_note = class_conf.get("note")
+            midi.send_note_off(midi_note)
+            if class_name in midi.active_notes:
+                del midi.active_notes[class_name]
+            print(f"note_off: {class_name} -> MIDI {midi_note}")
+            active_detections.discard(class_name)
 
         cv2.imshow("YOLOv5 Detections", original_frame)
 
