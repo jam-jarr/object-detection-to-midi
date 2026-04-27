@@ -136,6 +136,12 @@ parser.add_argument(
 )
 
 # TODO: videocapture parameter CLI argument
+parser.add_argument(
+    "--device",
+    type=int,
+    default=0,
+    help="Device index of webcam",
+)
 
 
 class args:
@@ -166,7 +172,7 @@ model.conf = args.conf
 model.iou = args.iou
 
 # Initialize webcam
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(args.device)
 if not cap.isOpened():
     print("Error: Could not open webcam")
     exit()
