@@ -184,6 +184,10 @@ print("Webcam opened. Press 'q' to quit.")
 
 active_detections = set()
 
+cv2.namedWindow("YOLOv5 Detections", cv2.WINDOW_NORMAL)
+cap.capture_device.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+cap.capture_device.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+
 try:
     while True:
         ret, frame = cap.read()
@@ -241,7 +245,6 @@ try:
                     2,
                 )
 
-                cv2.namedWindow("YOLOv5 Detections", cv2.WINDOW_NORMAL)
                 cv2.imshow("YOLOv5 Detections", original_frame)
 
                 current_detections.add(class_name)
