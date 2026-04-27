@@ -135,12 +135,11 @@ parser.add_argument(
     help="Debug mode",
 )
 
-# TODO: videocapture parameter CLI argument
 parser.add_argument(
     "--device",
     type=int,
     default=0,
-    help="Device index of webcam",
+    help="Device index of video capture",
 )
 
 
@@ -242,6 +241,7 @@ try:
                     2,
                 )
 
+                cv2.namedWindow("YOLOv5 Detections", cv2.WINDOW_NORMAL)
                 cv2.imshow("YOLOv5 Detections", original_frame)
 
                 current_detections.add(class_name)
