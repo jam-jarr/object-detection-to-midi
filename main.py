@@ -170,6 +170,8 @@ model = torch.hub.load(
 model.conf = args.conf
 model.iou = args.iou
 
+model.cuda()
+
 # Initialize webcam
 cap = cv2.VideoCapture(args.device)
 if not cap.isOpened():
