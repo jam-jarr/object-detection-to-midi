@@ -251,8 +251,6 @@ try:
                     2,
                 )
 
-                cv2.imshow("YOLOv5 Detections", original_frame)
-
                 current_detections.add(class_name)
                 if class_name not in active_detections:
                     midi_note = class_conf.get("note")
@@ -272,6 +270,8 @@ try:
                     del midi.active_notes[class_name]
                 print(f"note_off: {class_name} -> MIDI {midi_note}")
                 active_detections.discard(class_name)
+
+        cv2.imshow("YOLOv5 Detections", original_frame)
 
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
