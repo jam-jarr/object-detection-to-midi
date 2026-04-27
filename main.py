@@ -5,10 +5,13 @@ import mido
 import argparse
 import json
 
-DEFAULT_MIDI_NOTE = 60
 VELOCITY_BASE = 80
 MIDI_CHANNEL = 0
-DEFAULT_COLOR = (0, 255, 0)
+
+DEFAULT_MIDI = {
+    "note": 60,
+    "color": (0, 255, 0),
+}
 
 
 class MidiController:
@@ -128,8 +131,7 @@ parser.add_argument(
 
 parser.add_argument(
     "--debug",
-    type=bool,
-    default=False,
+    action="store_true",
     help="Debug mode",
 )
 
@@ -148,13 +150,12 @@ if args.debug:
     print("-" * 50)
 
 # COCO class to MIDI note mapping
-with open("class_mapping.json") as f:
+with open("configuration.json") as f:
     configuration = json.load(f)
 
 if args.debug:
     print(configuration)
     print(configuration.get("person"))
-    exit()
 
 
 # Load model
@@ -188,7 +189,9 @@ try:
         original_frame = frame.copy()
         results = model(frame)
 
-        print(f"Frame size: {original_frame.shape}")
+        if args.debug:
+            print(f"Original frame size: {original_frame.shape}")
+            print(f"Frame size: {frame.shape}")
 
         detections = results.pandas().xyxy[0]
         print(results.pandas().xyxy[0])
@@ -199,6 +202,12 @@ try:
                 class_name = row["name"]
                 confidence = row["confidence"]
 
+                class_conf = configuration.get(class_name, DEFAULT_MIDI)
+
+                if args.debug:
+                    print(f"Class: {class_name}")
+                    print(f"Conf: {class_conf}")
+
                 x1, y1, x2, y2 = (
                     int(row["xmin"]),
                     int(row["ymin"]),
@@ -207,13 +216,15 @@ try:
                 )
 
                 # Scale detections to original frame size
-                x1 = int(x1 * original_frame.shape[1] / frame.shape[1])
-                y1 = int(y1 * original_frame.shape[0] / frame.shape[0])
-                x2 = int(x2 * original_frame.shape[1] / frame.shape[1])
-                y2 = int(y2 * original_frame.shape[0] / frame.shape[0])
+                x1 = int(x1 * (original_frame.shape[1] / frame.shape[1]))
+                y1 = int(y1 * (original_frame.shape[0] / frame.shape[0]))
+                x2 = int(x2 * (original_frame.shape[1] / frame.shape[1]))
+                y2 = int(y2 * (original_frame.shape[0] / frame.shape[0]))
 
                 # Render annotations
-                color = tuple(configuration.get(class_name, DEFAULT_COLOR))
+                color = tuple(class_conf.get("color", DEFAULT_MIDI["color"]))
+                if args.debug:
+                    print(f"Color: {color}")
                 cv2.rectangle(original_frame, (x1, y1), (x2, y2), color, thickness=2)
                 cv2.putText(
                     original_frame,
@@ -229,7 +240,7 @@ try:
 
                 current_detections.add(class_name)
                 if class_name not in active_detections:
-                    midi_note = configuration.get(class_name, DEFAULT_MIDI_NOTE)
+                    midi_note = class_conf.get("note")
                     midi.send_note_on(midi_note, VELOCITY_BASE)
                     midi.active_notes[class_name] = midi_note
                     print(
@@ -240,7 +251,7 @@ try:
 
             removed = active_detections - current_detections
             for class_name in removed:
-                midi_note = configuration.get(class_name, DEFAULT_MIDI_NOTE)
+                midi_note = class_conf.get("note")
                 midi.send_note_off(midi_note)
                 if class_name in midi.active_notes:
                     del midi.active_notes[class_name]
