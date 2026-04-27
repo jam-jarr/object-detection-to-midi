@@ -4,6 +4,7 @@ import numpy as np
 import mido
 import argparse
 import json
+from ultralytics import YOLO
 
 VELOCITY_BASE = 80
 MIDI_CHANNEL = 0
@@ -164,9 +165,12 @@ if args.debug:
 
 
 # Load model
-model = torch.hub.load(
-    "ultralytics/yolov5", args.model, pretrained=True, _verbose=False
-)
+# model = torch.hub.load(
+#     "ultralytics/yolov5", args.model, pretrained=True, _verbose=False
+# )
+
+model = YOLO("yolov8s.pt")
+
 model.conf = args.conf
 model.iou = args.iou
 
