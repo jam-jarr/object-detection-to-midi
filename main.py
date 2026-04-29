@@ -205,11 +205,9 @@ cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 
 available_classes = set()
 
-# for class_name, class_conf in configuration.items():
-#     if not class_conf.get("disabled", False):
-#         available_classes.add(class_name)
-
-available_classes = {"person"}
+for class_name, class_conf in configuration.items():
+    if not class_conf.get("disabled", False):
+        available_classes.add(class_name)
 
 playing_notes = defaultdict(dict)
 
