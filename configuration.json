@@ -1,6 +1,10 @@
 {
   "person": {
-    "note": 60,
+    "notes": [
+      60,
+      61,
+      62
+    ],
     "color": [
       0,
       255,
@@ -8,216 +12,358 @@
     ]
   },
   "bicycle": {
-    "note": 62
+    "notes": [
+      62
+    ]
   },
   "car": {
-    "note": 64
+    "notes": [
+      64
+    ]
   },
   "motorcycle": {
-    "note": 65
+    "notes": [
+      65
+    ]
   },
   "airplane": {
-    "note": 67
+    "notes": [
+      67
+    ]
   },
   "bus": {
-    "note": 69
+    "notes": [
+      69
+    ]
   },
   "train": {
-    "note": 71
+    "notes": [
+      71
+    ]
   },
   "truck": {
-    "note": 72
+    "notes": [
+      72
+    ]
   },
   "boat": {
-    "note": 74
+    "notes": [
+      74
+    ]
   },
   "traffic light": {
-    "note": 76
+    "notes": [
+      76
+    ]
   },
   "fire hydrant": {
-    "note": 77
+    "notes": [
+      77
+    ]
   },
   "stop sign": {
-    "note": 79
+    "notes": [
+      79
+    ]
   },
   "parking meter": {
-    "note": 81
+    "notes": [
+      81
+    ]
   },
   "bench": {
-    "note": 83
+    "notes": [
+      83
+    ]
   },
   "bird": {
-    "note": 48
+    "notes": [
+      48
+    ]
   },
   "cat": {
-    "note": 50
+    "notes": [
+      50
+    ]
   },
   "dog": {
-    "note": 52
+    "notes": [
+      52
+    ]
   },
   "horse": {
-    "note": 53
+    "notes": [
+      53
+    ]
   },
   "sheep": {
-    "note": 55
+    "notes": [
+      55
+    ]
   },
   "cow": {
-    "note": 57
+    "notes": [
+      57
+    ]
   },
   "elephant": {
-    "note": 59
+    "notes": [
+      59
+    ]
   },
   "bear": {
-    "note": 36
+    "notes": [
+      36
+    ]
   },
   "zebra": {
-    "note": 38
+    "notes": [
+      38
+    ]
   },
   "giraffe": {
-    "note": 40
+    "notes": [
+      40
+    ]
   },
   "backpack": {
-    "note": 42
+    "notes": [
+      42
+    ]
   },
   "umbrella": {
-    "note": 43
+    "notes": [
+      43
+    ]
   },
   "handbag": {
-    "note": 45
+    "notes": [
+      45
+    ]
   },
   "tie": {
-    "note": 47
+    "notes": [
+      47
+    ]
   },
   "suitcase": {
-    "note": 84
+    "notes": [
+      84
+    ]
   },
   "frisbee": {
-    "note": 86
+    "notes": [
+      86
+    ]
   },
   "skis": {
-    "note": 88
+    "notes": [
+      88
+    ]
   },
   "snowboard": {
-    "note": 89
+    "notes": [
+      89
+    ]
   },
   "sports ball": {
-    "note": 91
+    "notes": [
+      91
+    ]
   },
   "kite": {
-    "note": 93
+    "notes": [
+      93
+    ]
   },
   "baseball bat": {
-    "note": 95
+    "notes": [
+      95
+    ]
   },
   "baseball glove": {
-    "note": 96
+    "notes": [
+      96
+    ]
   },
   "skateboard": {
-    "note": 98
+    "notes": [
+      98
+    ]
   },
   "surfboard": {
-    "note": 100
+    "notes": [
+      100
+    ]
   },
   "tennis racket": {
-    "note": 102
+    "notes": [
+      102
+    ]
   },
   "bottle": {
-    "note": 104
+    "notes": [
+      104
+    ]
   },
   "wine glass": {
-    "note": 106
+    "notes": [
+      106
+    ]
   },
   "cup": {
-    "note": 108
+    "notes": [
+      108
+    ]
   },
   "fork": {
-    "note": 110
+    "notes": [
+      110
+    ]
   },
   "knife": {
-    "note": 112
+    "notes": [
+      112
+    ]
   },
   "spoon": {
-    "note": 114
+    "notes": [
+      114
+    ]
   },
   "bowl": {
-    "note": 116
+    "notes": [
+      116
+    ]
   },
   "banana": {
-    "note": 117
+    "notes": [
+      117
+    ]
   },
   "apple": {
-    "note": 119
+    "notes": [
+      119
+    ]
   },
   "sandwich": {
-    "note": 121
+    "notes": [
+      121
+    ]
   },
   "orange": {
-    "note": 122
+    "notes": [
+      122
+    ]
   },
   "broccoli": {
-    "note": 124
+    "notes": [
+      124
+    ]
   },
   "carrot": {
-    "note": 126
+    "notes": [
+      126
+    ]
   },
   "chair": {
-    "note": 24
+    "notes": [
+      24
+    ]
   },
   "couch": {
-    "note": 26
+    "notes": [
+      26
+    ]
   },
   "potted plant": {
-    "note": 28
+    "notes": [
+      28
+    ]
   },
   "bed": {
-    "note": 30
+    "notes": [
+      30
+    ]
   },
   "dining table": {
-    "note": 32
+    "notes": [
+      32
+    ]
   },
   "toilet": {
-    "note": 34
+    "notes": [
+      34
+    ]
   },
   "tv": {
-    "note": 12
+    "notes": [
+      12
+    ]
   },
   "laptop": {
-    "note": 14
+    "notes": [
+      14
+    ]
   },
   "mouse": {
-    "note": 16
+    "notes": [
+      16
+    ]
   },
   "keyboard": {
-    "note": 17
+    "notes": [
+      17
+    ]
   },
   "remote": {
-    "note": 19
+    "notes": [
+      19
+    ]
   },
   "microwave": {
-    "note": 21
+    "notes": [
+      21
+    ]
   },
   "oven": {
-    "note": 23
+    "notes": [
+      23
+    ]
   },
   "toaster": {
-    "note": 0
+    "notes": [
+      0
+    ]
   },
   "refrigerator": {
-    "note": 2
+    "notes": [
+      2
+    ]
   },
   "book": {
-    "note": 4
+    "notes": [
+      4
+    ]
   },
   "clock": {
-    "note": 5
+    "notes": [
+      5
+    ]
   },
   "vase": {
-    "note": 7
+    "notes": [
+      7
+    ]
   },
   "scissors": {
-    "note": 9
+    "notes": [
+      9
+    ]
   },
   "teddy bear": {
-    "note": 1
+    "notes": [
+      1
+    ]
   }
 }
